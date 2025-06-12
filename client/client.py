@@ -5,8 +5,6 @@ import rfcontrol_pb2_grpc
 def run():
     channel = grpc.insecure_channel('localhost:50051')
     stub = rfcontrol_pb2_grpc.RFSettingsServiceStub(channel)
-
-
     
     
     response = stub.SetRFSettings(rfcontrol_pb2.RFConfig(

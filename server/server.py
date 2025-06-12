@@ -1,43 +1,75 @@
+# server/server.py
 import grpc
 from concurrent import futures
-import rf_settings_pb2
-import rf_settings_pb2_grpc
-import pyvisa as visa
+import time
+import logging
+import rfcontrol_pb2
+import rfcontrol_pb2_grpc
 
-class RFSettingsServicer(rf_settings_pb2_grpc.RFSettingsServiceServicer):
+class RFControllerServicer(rfcontrol_pb2_grpc.RFControllerServicer):
     def __init__(self):
-        self.rm = visa.ResourceManager('@sim')
-        self.devices = {}
+        # Initialize mock device state
+        self.device_state = {
+            "frequency": 0.0,
+            "gain": 0.0,
+            "device_id": "none",
+            "status": "disconnected"
+        }
+    
+    def _mock_uhd_set_rf(self, frequency, gain, device_id):
+        """Mock UHD implementation for testing without hardware"""
+        # Simulate hardware delay
+        time.sleep(0.2) 
+        
+        # Validate inputs
+        if frequency <= 0:
+            return False, "Frequency must be positive"
+        if not (-20 <= gain <= 30):
+            return False, "Gain must be between -20 and 30 dB"
+        
+        # Update mock device state
+        self.device_state.update({
+            "frequency": frequency,
+            "gain": gain,
+            "device_id": device_id,
+            "status": "configured"
+        })
+        
+        return True, f"Configured {device_id}: {frequency/1e6:.2f} MHz, {gain} dB"
 
     def SetRFSettings(self, request, context):
+        """gRPC method implementation using mock UHD"""
         try:
-            if request.device_id not in self.devices:
-                self.devices[request.device_id] = self.rm.open_resource(request.device_id)
-            
-            device = self.devices[request.device_id]
-            device.write(f"FREQ {request.frequency} MHz")
-            device.write(f"GAIN {request.gain} dB")
-            
-            return rf_settings_pb2.RFResponse(
-                success=True,
-                status=f"Frequency: {request.frequency} MHz, Gain: {request.gain} dB",
-                device_id=request.device_id
+            # Call mock UHD function
+            success, message = self._mock_uhd_set_rf(
+                request.frequency,
+                request.gain,
+                request.device_id
             )
+            
+            return rfcontrol_pb2.RFResponse(
+                success=success,
+                message=message,
+                device_status=self.device_state["status"]
+            )
+            
         except Exception as e:
-            return rf_settings_pb2.RFResponse(
+            context.set_code(grpc.StatusCode.INTERNAL)
+            return rfcontrol_pb2.RFResponse(
                 success=False,
-                status=str(e),
-                device_id=request.device_id
+                message=f"Error: {str(e)}",
+                device_status="error"
             )
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    rf_settings_pb2_grpc.add_RFSettingsServiceServicer_to_server(
-        RFSettingsServicer(), server)
+    rfcontrol_pb2_grpc.add_RFControllerServicer_to_server(
+        RFControllerServicer(), server)
     server.add_insecure_port('[::]:50051')
+    logging.info("Server started on port 50051")
     server.start()
-    print("Server running on port 50051")
     server.wait_for_termination()
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     serve()

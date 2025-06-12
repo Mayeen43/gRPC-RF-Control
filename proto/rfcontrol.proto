@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package rf_settings;
+package rfcontrol;
 
 message RFConfig {
     float frequency = 1;

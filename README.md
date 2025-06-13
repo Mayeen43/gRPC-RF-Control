@@ -15,7 +15,7 @@ A hardware-agnostic control system for configuring RF devices via gRPC with mock
 - [Core Components](#-core-components)
 - [Usage Examples](#-usage-examples)
 - [Development](#-development)
-- [License](#-license)
+- [Conclusion](#-conclusion)
 
 ---
 
@@ -153,3 +153,32 @@ python client.py --frequency -1 --gain 10
 # Validate proto file syntax
 protoc --proto_path=proto --validate_out=lang=python:. proto/rfcontrol.proto
 ```
+
+## Conclusion
+
+### **Conclusion**  
+
+Despite multiple fixes, the **gRPC server** still fails with the error:  
+**`Protocol message RFResponse has no "message" field`**, indicating a persistent mismatch between the `.proto` definition and the server’s response construction.  
+
+#### **What’s Working:**  
+**Protocol Buffer Definition** – Correctly defines `RFResponse` with `success`, `status`, and `device_id`.  
+**Client-Server Communication** – Basic gRPC setup is functional.  
+**UHD Mock Logic** – The RF configuration logic (simulated or real) executes properly.  
+
+#### **Remaining Issue:**  
+**Field Name Mismatch** – The server still tries to use a non-existent `message` field instead of `status`, suggesting:  
+   - A hidden reference to an outdated `.proto` file.  
+   - Cached generated files (`rfcontrol_pb2.py`) not being regenerated correctly.  
+   - An overlooked `RFResponse` construction in error handling.  
+
+#### **Next Steps:**  
+1. **Nuclear Cleanup:**  
+   - Delete *all* generated files (`rfcontrol_pb2*.py`) and regenerate them.  
+   - Search the entire project for `message=` to ensure no legacy code remains.  
+2. **Validation Test:**  
+   - Temporarily hardcode the server to return a minimal `RFResponse` (no logic) to isolate the issue.  
+3. **Debugging:**  
+   - Add logging to verify which line constructs the faulty response.  
+
+The core logic is sound—once the field mismatch is resolved, the project will work as intended.

@@ -1,5 +1,4 @@
 # gRPC-RF-Control
-```markdown
 # 📡 RF Device Control System with gRPC
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
@@ -7,7 +6,6 @@
 [![Protocol Buffers](https://img.shields.io/badge/Protobuf-3.20+-red)](https://protobuf.dev/)
 
 A hardware-agnostic control system for configuring RF devices via gRPC with mock UHD integration.
-
 ---
 
 ## 📌 Table of Contents

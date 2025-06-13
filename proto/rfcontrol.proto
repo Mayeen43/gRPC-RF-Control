@@ -3,14 +3,14 @@ syntax = "proto3";
 package rfcontrol;
 
 message RFConfig {
-    float frequency = 1;
+    double frequency = 1;
     float gain = 2;
     string device_id = 3;
 }
 
 message RFResponse {
     bool success = 1;
-    string status = 2;
+    string status = 2;    // ONLY these fields exist
     string device_id = 3;
 }
 

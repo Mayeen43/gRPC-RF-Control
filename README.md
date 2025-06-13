@@ -49,8 +49,10 @@ cp rfcontrol_pb2*.py server/ client/
 ### 2. Run the System
 | Component | Command | Expected Output |
 |-----------|---------|-----------------|
-| **Server** | `cd server && python server.py` | `INFO: Server listening on port 50051` |
-| **Client** | `cd client && python client.py --frequency 2.4e9 --gain 20` | Success confirmation |
+| **Server** | `cd server && python server.py` | `INFO:root:Server started on port 50051` |
+| **Client** | `cd client && python client.py --frequency 2.4e9 --gain 20` | Sending request: frequency: 2.4e+09
+gain: 20
+device_id: "usrp1" |
 
 ---
 
@@ -92,12 +94,24 @@ message RFConfig {
 ### Mock UHD Implementation
 ```python
 # server/server.py
-def _set_rf_params(freq, gain):
-    """Simulates hardware with 200ms delay"""
-    time.sleep(0.2)
-    if freq <= 0:
-        raise ValueError("Frequency must be positive")
-    return f"Set {freq/1e6:.2f} MHz at {gain} dB"
+def _mock_uhd_set_rf(self, frequency, gain, device_id):
+        """Mock UHD implementation for testing without hardware"""
+        # Simulate hardware delay
+        time.sleep(0.2) 
+        
+        # Validate inputs
+        if frequency <= 0:
+            return False, "Frequency must be positive"
+        if not (-20 <= gain <= 30):
+            return False, "Gain must be between -20 and 30 dB"
+        
+        # Update mock device state
+        self.device_state.update({
+            "frequency": frequency,
+            "gain": gain,
+            "device_id": device_id,
+            "status": "configured"
+        })
 ```
 
 ---
@@ -110,8 +124,11 @@ python client.py --frequency 3.5e9 --gain 25 --device-id bs1
 ```
 **Output**:
 ```
-✅ Success: Configured bs1 at 3500.00 MHz (25 dB)
+Sending request: frequency: 2.4e+09
+gain: 20
+device_id: "usrp1"
 ```
+```bash
 
 ### Error Case
 ```bash
@@ -135,8 +152,4 @@ python client.py --frequency -1 --gain 10
 ```bash
 # Validate proto file syntax
 protoc --proto_path=proto --validate_out=lang=python:. proto/rfcontrol.proto
-```
-
----
-> **Pro Tip**: Use `--device-id` to manage multiple virtual radios simultaneously!
 ```

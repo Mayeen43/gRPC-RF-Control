@@ -1,6 +1,4 @@
 # gRPC-RF-Control
-Here's the complete **README.md** in polished Markdown format, structured for clarity and visual appeal:
-
 ```markdown
 # 📡 RF Device Control System with gRPC
 

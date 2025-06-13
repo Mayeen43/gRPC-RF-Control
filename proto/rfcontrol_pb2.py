@@ -24,17 +24,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0frfcontrol.proto\x12\x0brf_settings\">\n\x08RFConfig\x12\x11\n\tfrequency\x18\x01 \x01(\x02\x12\x0c\n\x04gain\x18\x02 \x01(\x02\x12\x11\n\tdevice_id\x18\x03 \x01(\t\"@\n\nRFResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x11\n\tdevice_id\x18\x03 \x01(\t2T\n\x11RFSettingsService\x12?\n\rSetRFSettings\x12\x15.rf_settings.RFConfig\x1a\x17.rf_settings.RFResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0frfcontrol.proto\x12\trfcontrol\">\n\x08RFConfig\x12\x11\n\tfrequency\x18\x01 \x01(\x02\x12\x0c\n\x04gain\x18\x02 \x01(\x02\x12\x11\n\tdevice_id\x18\x03 \x01(\t\"@\n\nRFResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x11\n\tdevice_id\x18\x03 \x01(\t2K\n\x0cRFController\x12;\n\rSetRFSettings\x12\x13.rfcontrol.RFConfig\x1a\x15.rfcontrol.RFResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'rfcontrol_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_RFCONFIG']._serialized_start=32
-  _globals['_RFCONFIG']._serialized_end=94
-  _globals['_RFRESPONSE']._serialized_start=96
-  _globals['_RFRESPONSE']._serialized_end=160
-  _globals['_RFSETTINGSSERVICE']._serialized_start=162
-  _globals['_RFSETTINGSSERVICE']._serialized_end=246
+  _globals['_RFCONFIG']._serialized_start=30
+  _globals['_RFCONFIG']._serialized_end=92
+  _globals['_RFRESPONSE']._serialized_start=94
+  _globals['_RFRESPONSE']._serialized_end=158
+  _globals['_RFCONTROLLER']._serialized_start=160
+  _globals['_RFCONTROLLER']._serialized_end=235
 # @@protoc_insertion_point(module_scope)

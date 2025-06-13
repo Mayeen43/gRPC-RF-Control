@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class RFSettingsServiceStub(object):
+class RFControllerStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -35,13 +35,13 @@ class RFSettingsServiceStub(object):
             channel: A grpc.Channel.
         """
         self.SetRFSettings = channel.unary_unary(
-                '/rf_settings.RFSettingsService/SetRFSettings',
+                '/rfcontrol.RFController/SetRFSettings',
                 request_serializer=rfcontrol__pb2.RFConfig.SerializeToString,
                 response_deserializer=rfcontrol__pb2.RFResponse.FromString,
                 _registered_method=True)
 
 
-class RFSettingsServiceServicer(object):
+class RFControllerServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SetRFSettings(self, request, context):
@@ -51,7 +51,7 @@ class RFSettingsServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_RFSettingsServiceServicer_to_server(servicer, server):
+def add_RFControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SetRFSettings': grpc.unary_unary_rpc_method_handler(
                     servicer.SetRFSettings,
@@ -60,13 +60,13 @@ def add_RFSettingsServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'rf_settings.RFSettingsService', rpc_method_handlers)
+            'rfcontrol.RFController', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('rf_settings.RFSettingsService', rpc_method_handlers)
+    server.add_registered_method_handlers('rfcontrol.RFController', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class RFSettingsService(object):
+class RFController(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -83,7 +83,7 @@ class RFSettingsService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/rf_settings.RFSettingsService/SetRFSettings',
+            '/rfcontrol.RFController/SetRFSettings',
             rfcontrol__pb2.RFConfig.SerializeToString,
             rfcontrol__pb2.RFResponse.FromString,
             options,

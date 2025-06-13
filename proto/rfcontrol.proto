@@ -14,6 +14,6 @@ message RFResponse {
     string device_id = 3;
 }
 
-service RFSettingsService {
+service RFController {
     rpc SetRFSettings(RFConfig) returns (RFResponse);
 }

@@ -1,7 +1,4 @@
 # gRPC-RF-Control
-Here's the complete **README.md** in polished Markdown format, structured for clarity and visual appeal:
-
-```markdown
 # 📡 RF Device Control System with gRPC
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
@@ -9,7 +6,6 @@ Here's the complete **README.md** in polished Markdown format, structured for cl
 [![Protocol Buffers](https://img.shields.io/badge/Protobuf-3.20+-red)](https://protobuf.dev/)
 
 A hardware-agnostic control system for configuring RF devices via gRPC with mock UHD integration.
-
 ---
 
 ## 📌 Table of Contents
@@ -62,13 +58,18 @@ cp rfcontrol_pb2*.py server/ client/
 ```
 .
 ├── proto/
-│   └── rfcontrol.proto    # Service definition
+    ├── rfcontrol.proto    # Service definition
+    └── rfcontrol_pb2*.py  # Generated code
+    └── rfcontrol_pb2_grpc*.py  # Generated code
 ├── server/
-│   ├── server.py          # gRPC server
-│   └── rfcontrol_pb2*.py  # Generated code
-└── client/
+    ├── server.py          # gRPC server
+    └── rfcontrol_pb2*.py  # Generated code
+    └── rfcontrol_pb2_grpc*.py  # Generated code
+├── client/
     ├── client.py          # CLI interface
     └── rfcontrol_pb2*.py
+    └── rfcontrol_pb2_grpc*.py  # Generated code
+└── README.md
 ```
 
 ---
@@ -137,11 +138,5 @@ protoc --proto_path=proto --validate_out=lang=python:. proto/rfcontrol.proto
 ```
 
 ---
-
-## 📜 License
-MIT License © 2023 - See [LICENSE](LICENSE) for details.
-
----
-
 > **Pro Tip**: Use `--device-id` to manage multiple virtual radios simultaneously!
 ```

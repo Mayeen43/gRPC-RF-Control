@@ -133,11 +133,5 @@ protoc --proto_path=proto --validate_out=lang=python:. proto/rfcontrol.proto
 ```
 
 ---
-
-## 📜 License
-MIT License © 2023 - See [LICENSE](LICENSE) for details.
-
----
-
 > **Pro Tip**: Use `--device-id` to manage multiple virtual radios simultaneously!
 ```

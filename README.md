@@ -58,13 +58,18 @@ cp rfcontrol_pb2*.py server/ client/
 ```
 .
 ├── proto/
-│   └── rfcontrol.proto    # Service definition
+    ├── rfcontrol.proto    # Service definition
+    └── rfcontrol_pb2*.py  # Generated code
+    └── rfcontrol_pb2_grpc*.py  # Generated code
 ├── server/
-│   ├── server.py          # gRPC server
-│   └── rfcontrol_pb2*.py  # Generated code
-└── client/
+    ├── server.py          # gRPC server
+    └── rfcontrol_pb2*.py  # Generated code
+    └── rfcontrol_pb2_grpc*.py  # Generated code
+├── client/
     ├── client.py          # CLI interface
     └── rfcontrol_pb2*.py
+    └── rfcontrol_pb2_grpc*.py  # Generated code
+└── README.md
 ```
 
 ---

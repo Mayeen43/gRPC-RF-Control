@@ -25,8 +25,9 @@ if _version_not_supported:
     )
 
 
-class RFControllerStub(object):
-    """Missing associated documentation comment in .proto file."""
+class RFControlStub(object):
+    """The RF control service definition
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -35,17 +36,43 @@ class RFControllerStub(object):
             channel: A grpc.Channel.
         """
         self.SetRFSettings = channel.unary_unary(
-                '/rfcontrol.RFController/SetRFSettings',
+                '/rfcontrol.RFControlService/SetRFSettings',
                 request_serializer=rfcontrol__pb2.RFConfig.SerializeToString,
                 response_deserializer=rfcontrol__pb2.RFResponse.FromString,
+                _registered_method=True)
+        self.GetDeviceStatus = channel.unary_unary(
+                '/rfcontrol.RFControlService/GetDeviceStatus',
+                request_serializer=rfcontrol__pb2.DeviceRequest.SerializeToString,
+                response_deserializer=rfcontrol__pb2.RFResponse.FromString,
+                _registered_method=True)
+        self.GetDeviceInfo = channel.unary_unary(
+                '/rfcontrol.RFControlService/GetDeviceInfo',
+                request_serializer=rfcontrol__pb2.DeviceRequest.SerializeToString,
+                response_deserializer=rfcontrol__pb2.DeviceInfoResponse.FromString,
                 _registered_method=True)
 
 
 class RFControllerServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """The RF control service definition
+    """
 
     def SetRFSettings(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Sets RF parameters and returns device status
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetDeviceStatus(self, request, context):
+        """Gets current RF device status
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetDeviceInfo(self, request, context):
+        """Gets device identification
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -58,16 +85,27 @@ def add_RFControllerServicer_to_server(servicer, server):
                     request_deserializer=rfcontrol__pb2.RFConfig.FromString,
                     response_serializer=rfcontrol__pb2.RFResponse.SerializeToString,
             ),
+            'GetDeviceStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDeviceStatus,
+                    request_deserializer=rfcontrol__pb2.DeviceRequest.FromString,
+                    response_serializer=rfcontrol__pb2.RFResponse.SerializeToString,
+            ),
+            'GetDeviceInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDeviceInfo,
+                    request_deserializer=rfcontrol__pb2.DeviceRequest.FromString,
+                    response_serializer=rfcontrol__pb2.DeviceInfoResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'rfcontrol.RFController', rpc_method_handlers)
+            'rfcontrol.RFControlService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('rfcontrol.RFController', rpc_method_handlers)
+    server.add_registered_method_handlers('rfcontrol.RFControlService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class RFController(object):
-    """Missing associated documentation comment in .proto file."""
+class RFControlService(object):
+    """The RF control service definition
+    """
 
     @staticmethod
     def SetRFSettings(request,
@@ -83,9 +121,63 @@ class RFController(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/rfcontrol.RFController/SetRFSettings',
+            '/rfcontrol.RFControlService/SetRFSettings',
             rfcontrol__pb2.RFConfig.SerializeToString,
             rfcontrol__pb2.RFResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetDeviceStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/rfcontrol.RFControlService/GetDeviceStatus',
+            rfcontrol__pb2.DeviceRequest.SerializeToString,
+            rfcontrol__pb2.RFResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetDeviceInfo(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/rfcontrol.RFControlService/GetDeviceInfo',
+            rfcontrol__pb2.DeviceRequest.SerializeToString,
+            rfcontrol__pb2.DeviceInfoResponse.FromString,
             options,
             channel_credentials,
             insecure,

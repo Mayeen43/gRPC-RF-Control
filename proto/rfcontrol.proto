@@ -2,18 +2,48 @@ syntax = "proto3";
 
 package rfcontrol;
 
+// The RF control service definition
+service RFControlService {
+  // Sets RF parameters and returns device status
+  rpc SetRFSettings (RFConfig) returns (RFResponse);
+
+  // Gets current RF device status
+  rpc GetDeviceStatus (DeviceRequest) returns (RFResponse);
+
+  // Gets device identification
+  rpc GetDeviceInfo (DeviceRequest) returns (DeviceInfoResponse);
+}
+
+// RF configuration message
 message RFConfig {
-    double frequency = 1;
-    float gain = 2;
-    string device_id = 3;
+  string device_id = 1;        // Device identifier
+  double frequency = 2;        // Frequency in Hz
+  double gain = 3;             // Gain in dB
+  string mode = 4;             // Operating mode (TX/RX)
+  double power = 5;            // Power level in dBm
 }
 
+// Device request message
+message DeviceRequest {
+  string device_id = 1;        // Device identifier
+}
+
+// RF response message  
 message RFResponse {
-    bool success = 1;
-    string status = 2;    // ONLY these fields exist
-    string device_id = 3;
+  bool success = 1;            // Operation success status
+  string message = 2;          // Status message
+  string device_status = 3;    // Current device status
+  RFConfig current_config = 4; // Current RF configuration
+  int64 timestamp = 5;         // Response timestamp
 }
 
-service RFController {
-    rpc SetRFSettings(RFConfig) returns (RFResponse);
+// Device information response
+message DeviceInfoResponse {
+  bool success = 1;            // Operation success status
+  string device_id = 2;        // Device identifier
+  string manufacturer = 3;     // Device manufacturer
+  string model = 4;            // Device model
+  string serial_number = 5;    // Serial number
+  string firmware_version = 6; // Firmware version
+  repeated string capabilities = 7; // Device capabilities
 }

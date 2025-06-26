@@ -47,8 +47,7 @@ cp rfcontrol_pb2*.py server/ client/
 ### 1. Clone the Repository
 
 ```bash
-git clone 
-cd 
+git clone https://github.com/Mayeen43/gRPC-RF-Control/tree/main
 ```
 
 ### 2. Install Dependencies

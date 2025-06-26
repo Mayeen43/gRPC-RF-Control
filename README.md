@@ -407,9 +407,3 @@ Enter gain (dB): 20
 [MOCK] Responding with success
 ```
 
-## Troubleshooting
-
-- **gRPC import errors:** Ensure you generated the Python modules from `.proto` and installed `grpcio` and `grpcio-tools`.
-=======
-The core logic is sound—once the field mismatch is resolved, the project will work as intended.
->>>>>>> c39e50590b45cdace9fb2f0ed3d006082425921a
